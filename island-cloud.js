@@ -63,7 +63,7 @@ export function authBar(where) {
 /* 第一次登入：學生自己填班級、座號、姓名，加入名單。成功回傳名單資料 */
 export function joinForm(bar, u, onDone, onCancel) {
   const nm = (u.displayName || "").replace(/\s+/g, "").slice(0, 20);
-  bar.innerHTML = '<span>第一次登入 <b>' + esc(u.email) + '</b>，請填一次：</span>' +
+  bar.innerHTML = '<span>已登入 <b>' + esc(u.email) + '</b>。第一次使用，請填寫班級、座號、姓名和老師給的加入碼。</span>' +
     '<input id="jc" placeholder="班級 例 801" size="7" inputmode="numeric"> <input id="js" placeholder="座號" size="4" inputmode="numeric"> ' +
     '<input id="jn" placeholder="姓名" size="8" value="' + esc(nm) + '"> <input id="jk" placeholder="加入碼（老師給）" size="12" autocomplete="off"> <button class="primary" id="jok">加入</button><button id="jx" style="margin-left:0">換帳號</button><span class="warn" id="jm"></span>';
   const css = document.createElement("style");
@@ -311,7 +311,10 @@ function gatePage() {
     box.innerHTML = '<p>' + html + '</p>' + (btn ? '<button class="primary">' + btn + "</button>" : "");
     if (btn) box.querySelector("button").onclick = fn;
   };
-  const askLogin = note => say((note ? '<span class="warn">' + esc(note) + "</span><br>" : "") + "這一頁要先登入才看得到內容。請用老師登記的 Google 帳號登入。",
+  const loginHint = G.staffOnly
+    ? "請用老師的 Google 帳號登入。"
+    : "請用自己的 Google 帳號登入。第一次使用，請在登入後填寫班級、座號、姓名和老師給的加入碼。";
+  const askLogin = note => say((note ? '<span class="warn">' + esc(note) + "</span><br>" : "") + loginHint,
     "用 Google 登入", () => login().catch(e => askLogin("登入沒有完成：" + (e.code || e.message))));
 
   async function open(u) {
