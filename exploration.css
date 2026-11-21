@@ -362,16 +362,38 @@ body {
   font: italic 600 clamp(1rem, 2vw, 1.6rem) Georgia, serif;
 }
 .gate-axis-x { top: 51%; right: 1%; left: auto; }
+[data-exploration="island-map"] .wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 23%);
+  grid-template-areas:
+    "heading heading"
+    "auth auth"
+    "status status"
+    "swipe guide"
+    "map guide"
+    "foot foot";
+  gap: 12px 20px;
+  align-items: start;
+}
 [data-exploration="island-map"] .wrap > header {
+  grid-area: heading;
+  margin-bottom: 0;
   border: 0;
   border-bottom: 2px solid var(--ink);
   border-radius: 0;
   background: transparent;
   text-align: left;
-  padding-inline: 0;
+  padding: 20px 0;
 }
+[data-exploration="island-map"] .wrap > .isl-auth { grid-area: auth; }
+[data-exploration="island-map"] #main { grid-area: status; margin: 0; }
+[data-exploration="island-map"] #main:empty { display: none; }
+[data-exploration="island-map"] .swipe { grid-area: swipe; }
+[data-exploration="island-map"] footer { grid-area: foot; }
 [data-exploration="island-map"] .how {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 218px), 1fr));
+  grid-area: guide;
+  grid-template-columns: minmax(0, 1fr);
+  margin: 0;
   gap: 10px;
 }
 [data-exploration="island-map"] .how div {
@@ -381,6 +403,9 @@ body {
 }
 [data-exploration="island-map"] .how b { color: var(--accent); }
 [data-exploration="island-map"] .mapbox {
+  grid-area: map;
+  min-width: 0;
+  margin: 0;
   border: 1px solid var(--accent);
   border-radius: 6px;
   background:
@@ -399,6 +424,15 @@ body .isl-auth { font-family: var(--sans) !important; border-radius: 4px; }
   [data-exploration="island-map"] svg.map [stroke="#1d1d1d"] { stroke: #d3bfdc; }
   [data-exploration="island-map"] svg.map [fill="#1d1d1d"] { fill: #e3d2eb; }
   [data-exploration="island-map"] svg.map text.tiny { fill: var(--indigo) !important; }
+}
+@media (max-width: 1000px) {
+  [data-exploration="island-map"] .wrap {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "heading" "auth" "status" "swipe" "map" "guide" "foot";
+  }
+  [data-exploration="island-map"] .how {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 218px), 1fr));
+  }
 }
 @media (max-width: 760px) {
   #isl-gate { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(170px, 1fr); gap: 12px; }

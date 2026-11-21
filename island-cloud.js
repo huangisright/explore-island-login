@@ -277,6 +277,11 @@ async function mount(data) {
   document.head.append(th.content);
   if (theme) document.head.append(theme);
   document.body.append(tb.content);
+  if (window.ISLAND_GATE.slug === "index") {
+    const guide = document.querySelector(".wrap > .how");
+    const map = document.querySelector(".wrap > .mapbox");
+    if (guide && map) map.after(guide);
+  }
   // 有幾章的程式在等 DOMContentLoaded／load，這時早就發生過了：先收起來，全部 script 跑完再補叫
   const late = [], dAdd = document.addEventListener, wAdd = window.addEventListener;
   document.addEventListener = function (t, f, o) { if (t === "DOMContentLoaded") late.push([document, f]); else dAdd.call(this, t, f, o); };
