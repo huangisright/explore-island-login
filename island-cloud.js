@@ -267,7 +267,15 @@ async function mount(data) {
   const gate = document.getElementById("isl-gate"), gcss = document.getElementById("isl-gate-css");
   if (gate) gate.remove();
   if (gcss) gcss.remove();
+  const theme = document.getElementById("exploration-theme");
+  if (theme) {
+    th.content.querySelector("style#hand-theme")?.remove();
+    const slug = window.ISLAND_GATE.slug;
+    document.documentElement.dataset.exploration = slug === "index" ? "island-map"
+      : /^g[789][ab]-/.test(slug) ? "island-unit" : "island-system";
+  }
   document.head.append(th.content);
+  if (theme) document.head.append(theme);
   document.body.append(tb.content);
   // 有幾章的程式在等 DOMContentLoaded／load，這時早就發生過了：先收起來，全部 script 跑完再補叫
   const late = [], dAdd = document.addEventListener, wAdd = window.addEventListener;
